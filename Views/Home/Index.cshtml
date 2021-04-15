@@ -1,12 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio ";
 }
 
 <div class="text-center">
     <h1 class="display-4">Bienvenidos</h1>
 </div>
-<div class="col">
-    <div class="card">
-        <img src="https://mdbootstrap.com/img/new/standard/city/010.jpg" class="card-img-top" alt="..." />
+
+@if(!User.Identity.IsAuthenticated)
+{
+    await Html.RenderPartialAsync("_Login", new LoginView());
+}
+
+    <div class="col">
+        <div class="card">
+            <img src="https://mdbootstrap.com/img/new/standard/city/010.jpg" class="card-img-top" alt="..." />
+        </div>
     </div>
-</div>
