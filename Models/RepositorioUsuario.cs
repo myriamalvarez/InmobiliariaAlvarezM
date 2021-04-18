@@ -152,38 +152,37 @@ namespace InmobiliariaAlvarezM.Models
         }
         return u;
     }
-    public Usuario ObtenerPorEmail(string email)
-    {
-        Usuario u = null;
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        public Usuario ObtenerPorEmail(string email)
         {
-            string sql = $"SELECT IdUsuario, Nombre, Apellido, Avatar, Email, Clave, Rol FROM Usuario" +
-                $" WHERE Email=@email";
-            using (SqlCommand command = new SqlCommand(sql, connection))
+            Usuario e = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
-                command.CommandType = CommandType.Text;
-                connection.Open();
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                string sql = $"SELECT IdUsuario, Nombre, Apellido, Avatar, Email, Clave, Rol FROM Usuario" +
+                    $" WHERE Email=@email";
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    u = new Usuario
+                    command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+                    command.CommandType = CommandType.Text;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
                     {
-                        IdUsuario = reader.GetInt32(0),
-                        Nombre = reader.GetString(1),
-                        Apellido = reader.GetString(2),
-                        Avatar = reader["Avatar"].ToString(),
-                        Email = reader.GetString(4),
-                        Clave = reader.GetString(5),
-                        Rol = reader.GetInt32(6),
-                       
-                    };
-                    return u;
+                        e = new Usuario
+                        {
+                            IdUsuario = reader.GetInt32(0),
+                            Nombre = reader.GetString(1),
+                            Apellido = reader.GetString(2),
+                            Avatar = reader.GetString(3),
+                            Email = reader.GetString(4),
+                            Clave = reader.GetString(5),
+                            Rol = reader.GetInt32(6),
+                        };
+                        return e;
+                    }
+                    connection.Close();
                 }
-                connection.Close();
             }
+            return e;
         }
-        return u;
     }
-}
 }

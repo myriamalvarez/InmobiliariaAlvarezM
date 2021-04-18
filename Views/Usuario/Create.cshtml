@@ -1,16 +1,16 @@
 ﻿@model InmobiliariaAlvarezM.Models.Usuario
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nuevo usuario";
 }
 
-<h1>Create</h1>
+<h1>Nuevo usuario</h1>
 
 <h4>Usuario</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -24,8 +24,8 @@
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AvatarFile" class="control-label"></label>
-                <input type="file" name="AvatarFile" />
+                <label asp-for="Avatar" class="control-label"></label>
+                <input asp-for="Avatar" class="form-control" />
                 <span asp-validation-for="Avatar" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,29 +38,25 @@
                 <input asp-for="Clave" class="form-control" />
                 <span asp-validation-for="Clave" class="text-danger"></span>
             </div>
-            @if (User.IsInRole("Administrador") || User.IsInRole("SuperAdministrador"))
-            {
             <div class="form-group">
-                <label class="control-label">Rol</label>
-                <select class="form-control" name="Rol">
-                    @foreach (var kvp in (IDictionary<int, string>)ViewBag.Roles)
-                    {
-                        <option value="@kvp.Key">@kvp.Value</option>
-                    }
-                </select>
+                <label asp-for="Rol" class="control-label"></label>
+                <input asp-for="Rol" class="form-control" />
                 <span asp-validation-for="Rol" class="text-danger"></span>
             </div>
-            }
-   
             <div class="form-group">
-                <input type="submit" value="Nuevo Usuario" class="btn btn-primary" />
+                <label asp-for="RolNombre" class="control-label"></label>
+                <input asp-for="RolNombre" class="form-control" />
+                <span asp-validation-for="RolNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver al listado</a>
 </div>
 
 @section Scripts {

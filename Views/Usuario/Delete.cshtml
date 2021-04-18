@@ -1,12 +1,12 @@
 ﻿@model InmobiliariaAlvarezM.Models.Usuario
 
 @{
-    ViewData["Title"] = "Eliminar usuario";
+    ViewData["Title"] = "Eliminar";
 }
 
 <h1>Eliminar</h1>
 
-<h3>Esta seguro de eliminar el usuario?</h3>
+<h3>Esta seguro de borrar a este usuario?</h3>
 <div>
     <h4>Usuario</h4>
     <hr />
@@ -62,7 +62,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Borrar" class="btn btn-danger" /> |
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
         <a asp-action="Index">Volver al listado</a>
     </form>
 </div>
