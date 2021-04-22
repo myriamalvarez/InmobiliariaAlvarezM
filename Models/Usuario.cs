@@ -18,15 +18,16 @@ namespace InmobiliariaAlvarezM.Models
         [Key]
         [Display(Name = "Codigo")]
         public int IdUsuario { get; set; }
-       // [Required]
+        [Required]
         public string Nombre { get; set; }
-       // [Required]
+        [Required]
         public string Apellido { get; set; }
         public string Avatar { get; set; }
+        [DataType(DataType.Upload)]
         public IFormFile AvatarFile { get; set; }
-        //[Required, EmailAddress]
+        [Required, EmailAddress]
         public string Email { get; set; }
-        //[Required,DataType(DataType.Password)]
+        [Required,DataType(DataType.Password)]
         public string Clave { get; set; }
         public int Rol { get; set; }
 

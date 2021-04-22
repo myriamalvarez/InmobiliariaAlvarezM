@@ -1,0 +1,71 @@
+﻿@model IEnumerable<InmobiliariaAlvarezM.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Mostrar Inmuebles Por Propietario";
+}
+
+<h1>Inmuebles por Propietario</h1>
+
+<p>
+    <a type="button" class="btn btn-success" asp-action="Create" asp-route-id="@ViewBag.IdPropietario">Crear Nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ambientes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoNombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPropietario)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ambientes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoNombre)
+            </td>
+            <td>
+                @(item.Propietario.Nombre + " " + item.Propietario.Apellido)
+            </td>
+
+
+        </tr>
+        }
+    </tbody>
+</table>

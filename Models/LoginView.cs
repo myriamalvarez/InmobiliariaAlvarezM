@@ -8,10 +8,10 @@ namespace InmobiliariaAlvarezM.Models
 {
     public class LoginView
     {
-        [Required]
+        //[Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [Required]
+       // [Required]
         [DataType(DataType.Password)]
         public string Clave { get; set; }
     }

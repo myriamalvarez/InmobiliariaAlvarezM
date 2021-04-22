@@ -4,17 +4,17 @@
     ViewData["Title"] = "Usuarios";
 }
 
+
+
 <h1>Usuarios</h1>
 
 <p>
-    <a asp-action="Create">Nuevo usuario</a>
+    <a asp-action="Create">Crear Usuario</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
@@ -22,56 +22,48 @@
                 @Html.DisplayNameFor(model => model.Apellido)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Avatar)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.Clave)
+                @Html.DisplayNameFor(model => model.Avatar)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rol)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RolNombre)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Avatar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Clave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RolNombre)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Detalles", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    <img width="32" src="@item.Avatar" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RolNombre)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdUsuario, returnUrl = TempData["returnUrl"] }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdUsuario, returnUrl = TempData["returnUrl"] })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+

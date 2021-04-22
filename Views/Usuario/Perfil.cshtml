@@ -1,0 +1,52 @@
+﻿@model InmobiliariaAlvarezM.Models.Usuario
+
+@{
+    ViewData["Title"] = "Perfil";
+}
+
+@{
+    ViewData["Title"] = "Perfil";
+}
+
+<h1><i class="bi bi-person">   </i>Perfil</h1>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-3">
+            <img class="img-thumbnail rounded" src="@Model.Avatar" />
+        </div>
+
+        <div class="col-9">
+            <br />
+            <h4>@Html.DisplayFor(model => model.Apellido) @Html.DisplayFor(model => model.Nombre)</h4>
+            <br />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IdUsuario)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IdUsuario)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Rol)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.RolNombre)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<div>
+    <a asp-action="EditarPerfil" title="Editar" asp-route-id="@Model.IdUsuario"><i class="bi bi-pencil-fill"></i> Editar Perfil</a> |
+    <a asp-action="Index" asp-controller="Home">Ir al Inicio</a>
+</div>

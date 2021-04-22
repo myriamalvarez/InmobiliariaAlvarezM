@@ -20,10 +20,11 @@ namespace InmobiliariaAlvarezM.Controllers
 
         public IActionResult Index()
         {
+            TempData["returnUrl"] = "/" + RouteData.Values["controller"] + Request.QueryString.Value;
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Restringido()
         {
             return View();
         }

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<InmobiliariaAlvarezM.Models.Pago>
+
+@{
+    ViewData["Title"] = "Pagos por Contrato";
+}
+
+<h1>Pagos por Contrato</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.IdContrato">Crear Nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Importe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDePago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdContrato)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Importe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDePago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdContrato)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.IdPago }) |
+                @Html.ActionLink("Detalles", "Details", new { id=item.IdPago}) |
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.IdPago})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,4 +1,5 @@
 ﻿using InmobiliariaAlvarezM.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,17 +10,16 @@ using System.Threading.Tasks;
 
 namespace InmobiliariaAlvarezM.Controllers
 {
+    [Authorize]
     public class InmuebleController : Controller
     {
-        private readonly RepositorioInmueble repositorio;
-        private RepositorioPropietario repositorioPropietario;
-        private readonly IConfiguration configuration;
+        private readonly IRepositorioInmueble repositorio;
+        private readonly IRepositorioPropietario repositorioPropietario;
 
-        public InmuebleController(IConfiguration configuration)
+        public InmuebleController(IRepositorioInmueble repositorio, IRepositorioPropietario repositorioPropietario)
         {
-            this.repositorio = new RepositorioInmueble(configuration);
-            this.repositorioPropietario = new RepositorioPropietario(configuration);
-            this.configuration = configuration;
+            this.repositorio = repositorio;
+            this.repositorioPropietario = repositorioPropietario;
         }
         // GET: InmuebleController
         public ActionResult Index()
@@ -102,6 +102,20 @@ namespace InmobiliariaAlvarezM.Controllers
             }
             catch
             {
+                return View();
+            }
+        }
+        public ActionResult MostrarInmueblesPorPropietario(int id)
+        {
+            try
+            {
+                var lista = repositorio.BuscarPorPropietario(id);
+                ViewBag.IdPropietario = id;
+                return View(lista);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
                 return View();
             }
         }

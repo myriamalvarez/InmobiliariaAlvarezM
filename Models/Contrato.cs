@@ -8,8 +8,10 @@ namespace InmobiliariaAlvarezM.Models
 {
     public class Contrato
     {
+        [Key]
         [Display(Name = "Contrato")]
         public int IdContrato { get; set; }
+        [Required]
         public int Importe { get; set; }
         [Display(Name = "Fecha de inicio")]
         public DateTime FechaInicio { get; set; }

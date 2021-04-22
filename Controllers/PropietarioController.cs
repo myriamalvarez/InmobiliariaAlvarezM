@@ -1,4 +1,5 @@
 ﻿using InmobiliariaAlvarezM.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,15 +10,16 @@ using System.Threading.Tasks;
 
 namespace InmobiliariaAlvarezM.Controllers
 {
+    [Authorize]
     public class PropietarioController : Controller
     {
-        private readonly RepositorioPropietario repositorio;
-        private readonly IConfiguration configuration;
+        private readonly IRepositorioPropietario repositorio;
+        //private IConfiguration configuration;
 
-        public PropietarioController(IConfiguration configuration)
+        public PropietarioController(IRepositorioPropietario repositorio, IConfiguration configuration)
         {
-            this.repositorio = new RepositorioPropietario(configuration);
-            this.configuration = configuration;
+            this.repositorio = repositorio;
+            //this.configuration = configuration;
         }
         // GET: PropietarioController
         public ActionResult Index()

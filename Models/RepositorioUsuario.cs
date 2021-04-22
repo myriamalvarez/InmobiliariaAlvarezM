@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InmobiliariaAlvarezM.Models
 {
-    public class RepositorioUsuario : RepositorioBase
+    public class RepositorioUsuario : RepositorioBase, IRepositorioUsuario
     {
         public RepositorioUsuario(IConfiguration configuration) : base(configuration)
         {
@@ -27,10 +27,11 @@ namespace InmobiliariaAlvarezM.Models
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@nombre", u.Nombre);
                 command.Parameters.AddWithValue("@apellido", u.Apellido);
-                    if (String.IsNullOrEmpty(u.Avatar))
+                    /*]if (String.IsNullOrEmpty(u.Avatar))
                         command.Parameters.AddWithValue("@avatar", u.Avatar);
                     else
-                        command.Parameters.AddWithValue("@avatar", u.Avatar);
+                        command.Parameters.AddWithValue("@avatar", u.Avatar);*/
+                command.Parameters.AddWithValue("@avatar", u.Avatar);
                 command.Parameters.AddWithValue("@email", u.Email);
                 command.Parameters.AddWithValue("@clave", u.Clave);
                 command.Parameters.AddWithValue("@rol", u.Rol);
@@ -41,7 +42,7 @@ namespace InmobiliariaAlvarezM.Models
                 connection.Close();
             }
         }
-        return res;
+        return u.IdUsuario;
     }
     public int Baja(int id)
     {
@@ -152,7 +153,39 @@ namespace InmobiliariaAlvarezM.Models
         }
         return u;
     }
+
         public Usuario ObtenerPorEmail(string email)
+        {
+            Usuario e = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT IdUsuario, Nombre, Apellido, Avatar, Email, Clave, Rol FROM Usuario" +
+                    $" WHERE Email=@email";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        e = new Usuario
+                        {
+                            IdUsuario = reader.GetInt32(0),
+                            Nombre = reader.GetString(1),
+                            Apellido = reader.GetString(2),
+                            Avatar = reader["Avatar"].ToString(),
+                            Email = reader.GetString(4),
+                            Clave = reader.GetString(5),
+                            Rol = reader.GetInt32(6),
+                        };
+                    }
+                    connection.Close();
+                }
+            }
+            return e;
+        }
+        /*public Usuario ObtenerPorEmail(string email)
         {
             Usuario e = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -183,6 +216,6 @@ namespace InmobiliariaAlvarezM.Models
                 }
             }
             return e;
-        }
+        }*/
     }
 }

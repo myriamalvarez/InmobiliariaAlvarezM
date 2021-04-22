@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InmobiliariaAlvarezM.Models
 {
-    public class RepositorioInquilino : RepositorioBase 
+    public class RepositorioInquilino : RepositorioBase, IRepositorioInquilino
     {
 		public RepositorioInquilino(IConfiguration configuration) : base(configuration)
 		{

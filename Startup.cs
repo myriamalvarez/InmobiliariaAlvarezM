@@ -20,6 +20,7 @@ namespace InmobiliariaAlvarezM
     public class Startup
 
     {
+        private readonly IConfiguration configuration;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,13 +31,12 @@ namespace InmobiliariaAlvarezM
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Usuario/Login";
                     options.LogoutPath = "/Usuario/Logout";
-                    options.AccessDeniedPath = "/Home/Index";
+                    options.AccessDeniedPath = "/Home/Restringido";
                 });
             services.AddAuthorization(options =>
             {
@@ -44,6 +44,16 @@ namespace InmobiliariaAlvarezM
                 options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador", "SuperAdministrador"));
                 options.AddPolicy("SuperAdministrador", policy => policy.RequireRole("SuperAdministrador"));
             });
+
+            //services.AddControllersWithViews();
+            services.AddMvc();
+            services.AddTransient<IRepositorioPropietario, RepositorioPropietario>();
+            services.AddTransient<IRepositorioContrato, RepositorioContrato>();
+            services.AddTransient<IRepositorioInquilino, RepositorioInquilino>();
+            services.AddTransient<IRepositorioInmueble, RepositorioInmueble>();
+            services.AddTransient<IRepositorioPago, RepositorioPago>();
+            services.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +80,7 @@ namespace InmobiliariaAlvarezM
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("login", "login/{**accion}", new { controller = "Usuario", action = "Login" });
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
