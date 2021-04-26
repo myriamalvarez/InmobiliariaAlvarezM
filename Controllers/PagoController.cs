@@ -60,8 +60,6 @@ namespace InmobiliariaAlvarezM.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    pago.IdContrato = id;
-                    var contrato = repositorioContrato.ObtenerPorId(id);
                     repositorio.Alta(pago);
                     var lista = repositorio.ObtenerTodos();
                     return View("Index", lista);
