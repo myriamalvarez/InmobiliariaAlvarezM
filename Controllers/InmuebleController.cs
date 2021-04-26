@@ -39,6 +39,7 @@ namespace InmobiliariaAlvarezM.Controllers
         public ActionResult Create()
         {
             ViewBag.Propietario = repositorioPropietario.ObtenerTodos();
+            ViewBag.Estado = Inmueble.ObtenerEstado();
             return View();
         }
 
@@ -63,6 +64,7 @@ namespace InmobiliariaAlvarezM.Controllers
         {
             var n = repositorio.ObtenerPorId(id);
             ViewBag.Propietario = repositorioPropietario.ObtenerTodos();
+            ViewBag.Estado = Inmueble.ObtenerEstado();
             return View(n);
         }
 

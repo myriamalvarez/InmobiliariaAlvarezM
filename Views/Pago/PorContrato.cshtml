@@ -3,13 +3,12 @@
 @{
     ViewData["Title"] = "Pagos por Contrato";
 }
-
-<h1>Pagos por Contrato</h1>
+<h1>Pagos De Contrato Nº </h1>
 
 <p>
-    <a asp-action="Create" asp-route-id="@ViewBag.IdContrato">Crear Nuevo</a>
+    <a class="btn btn-outline-success" asp-action="Create">Nuevo Pago</a>
 </p>
-<table class="table">
+<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>
@@ -22,32 +21,56 @@
                 @Html.DisplayNameFor(model => model.FechaDePago)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdContrato)
+                @Html.DisplayNameFor(model => model.Contrato)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contrato.Inquilino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contrato.Inmueble)
+            </th>
+            <th>
+                Dueño Inmueble
+            </th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IdPago)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Importe)
+                @(item.Importe)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaDePago)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.IdContrato)
+                @Html.DisplayFor(modelItem => item.Contrato.IdContrato)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id=item.IdPago }) |
-                @Html.ActionLink("Detalles", "Details", new { id=item.IdPago}) |
-                @Html.ActionLink("Eliminar", "Delete", new { id=item.IdPago})
+                @(item.Contrato.Inquilino.Nombre + " " + item.Contrato.Inquilino.Apellido)
             </td>
-        </tr>
-}
+            <td>
+                @Html.DisplayFor(modelItem => item.Contrato.Inmueble.Direccion)
+            </td>
+            <td>
+                @(item.Contrato.Inmueble.Propietario.Nombre + " " + item.Contrato.Inmueble.Propietario.Apellido)
+            </td>
+
+            <td>
+                @Html.ActionLink("", "Details", new { id = item.IdPago }, new { @class = "btn btn-outline-primary fa  fa-info" })
+            </td>
+            <td>
+
+                @Html.ActionLink("", "Delete", new { id = item.IdPago }, new { @class = "btn btn-outline-danger fa fa-trash" })
+            </td>
+        </tr>}
     </tbody>
 </table>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +14,13 @@ namespace InmobiliariaAlvarezM.Models
         public int IdContrato { get; set; }
         [Required]
         public int Importe { get; set; }
-        [Display(Name = "Fecha de inicio")]
+        [Required]
+        [DisplayName("Fecha de inicio"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Date)]
         public DateTime FechaInicio { get; set; }
-        [Display(Name = "Fecha de termino")]
+        [Required]
+        [DisplayName("Fecha Final"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Date)]
         public DateTime FechaFin { get; set; }
         [Display(Name = "Inquilino")]
         public int IdInquilino { get; set; }

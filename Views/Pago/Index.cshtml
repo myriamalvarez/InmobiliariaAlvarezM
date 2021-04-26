@@ -3,26 +3,25 @@
 @{
     ViewData["Title"] = "Pagos";
 }
-
-<h1>Pagos</h1>
-
+<p>
+    <a asp-action="Create">Ingresar Nuevo Pago</a>
+</p>
+<h2>LISTADO DE PAGOS</h2>
 
 <table class="table">
     <thead>
         <tr>
-
             <th>
-                Número de Pago
+                @Html.DisplayNameFor(model => model.IdPago)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Importe)
             </th>
             <th>
-                Fecha de Pago
+                @Html.DisplayNameFor(model => model.FechaDePago)
             </th>
-
             <th>
-                Número de Contrato
+                @Html.DisplayNameFor(model => model.IdContrato)
             </th>
             <th></th>
         </tr>
@@ -31,22 +30,21 @@
         @foreach (var item in Model)
         {
         <tr>
-
             <td>
                 @Html.DisplayFor(modelItem => item.IdPago)
             </td>
             <td>
-                $ @Html.DisplayFor(modelItem => item.Importe)
+                @Html.DisplayFor(modelItem => item.Importe)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaDePago)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.IdContrato)
             </td>
             <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.IdPago }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.IdPago }) |
                 @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPago })
             </td>
         </tr>

@@ -27,14 +27,32 @@
                 <input type="date" asp-for="FechaDePago" class="form-control" />
                 <span asp-validation-for="FechaDePago" class="text-danger"></span>
             </div>
-
-
             <div class="form-group">
                 <label asp-for="IdContrato" class="control-label">Número de Contrato</label>
                 <input readonly asp-for="IdContrato" class="form-control" />
                 <span asp-validation-for="IdContrato" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Contrato.Inquilino" class="control-label">Seleccione Inquilino</label>
+                <select asp-for="Contrato.IdInquilino" class="form-control">
+                    @foreach(Inquilino item in (IList<Inquilino>)ViewBag.inquilino)
+            {
+                <option value=@item.IdInquilino>@item.Apellido @item.Nombre</option>
+            }
+                    </select>
+                <span asp-validation-for="Contrato.IdInquilino" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contrato.Inmueble" class="control-label">Seleccione el inmueble</label>
+                <select asp-for="Contrato.IdInmueble" class="form-control">
+                    @foreach(Inmueble item in (IList<Inmueble>)ViewBag.inmueble)
+            {
+                <option value=@item.IdInmueble>@item.Direccion</option>
+            }
+                </select>
+                <span asp-validation-for="Contrato.IdInmueble" class="text-danger"></span>
+                </div>
+            <div>
                 <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>

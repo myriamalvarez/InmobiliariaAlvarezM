@@ -7,7 +7,6 @@ namespace InmobiliariaAlvarezM.Models
 {
     public interface IRepositorioPago : IRepositorio<Pago>
     {
-        Pago ObtenerPorId(int id);
-        IList<Pago> BuscarPorContrato(int idContrato);
+        IList<Pago> BuscarPorContrato(int id);
     }
 }

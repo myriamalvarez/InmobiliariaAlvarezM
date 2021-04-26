@@ -14,9 +14,9 @@ namespace InmobiliariaAlvarezM.Models
         public int IdPago { get; set; }
 
         [Required]
-        [DataType(DataType.Currency)]
+        [Display(Name = "Importe($)")]
         public int Importe { get; set; }
-        [Required]
+        [Required, DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         [Display(Name = "Fecha de Pago")]
         [DataType(DataType.Date)]
         public DateTime FechaDePago { get; set; }

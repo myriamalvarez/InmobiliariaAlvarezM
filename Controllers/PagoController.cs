@@ -14,25 +14,29 @@ namespace InmobiliariaAlvarezM.Controllers
     public class PagoController : Controller
     {
         private readonly IConfiguration configuration;
-        private readonly IWebHostEnvironment environment;
+        //private readonly IWebHostEnvironment environment;
         private readonly IRepositorioPago repositorio;
         private readonly IRepositorioContrato repositorioContrato;
-        public PagoController(IConfiguration configuration, IWebHostEnvironment environment, IRepositorioPago repositorio, IRepositorioContrato repositorioContrato)
+        private readonly IRepositorioInmueble repositorioInmueble;
+        private readonly IRepositorioInquilino repositorioInquilino;
+        public PagoController(IConfiguration configuration, IRepositorioPago repositorio, IRepositorioContrato repositorioContrato, IRepositorioInmueble repositorioInmueble, IRepositorioInquilino repositorioInquilino)
         {
             this.configuration = configuration;
-            this.environment = environment;
+            //this.environment = environment;
             this.repositorio = repositorio;
             this.repositorioContrato = repositorioContrato;
+            this.repositorioInmueble = repositorioInmueble;
+            this.repositorioInquilino = repositorioInquilino;
         }
 
         // GET: PagoController
-        public ActionResult Index(int id)
+        
+        public ActionResult Index()
         {
             var lista = repositorio.ObtenerTodos();
             return View(lista);
-
         }
-
+      
         // GET: PagoController/Details/5
         public ActionResult Details(int id)
         {
@@ -40,60 +44,65 @@ namespace InmobiliariaAlvarezM.Controllers
             return View(p);
         }
 
-        // GET: PagoController/Create
-        public ActionResult Create()
-        {
+        [Authorize(Policy = "Administrador")]
+        public ActionResult Create(int id)  
+            {
+                ViewBag.Contrato = repositorioContrato.ObtenerTodos();
+                return View();
+            }
 
-            ViewBag.Contrato = repositorioContrato.ObtenerTodos();
-            ViewBag.Pago = repositorio.ObtenerTodos();
-            return View();
-        }
-
-        // POST: PagoController/Create
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Pago pago)
+        public ActionResult Create(int id, Pago pago)
         {
             try
             {
-                repositorio.Alta(pago);
-                TempData["Id"] = "Se creo el Pago";
-                return RedirectToAction(nameof(Index));
-
+                if (ModelState.IsValid)
+                {
+                    pago.IdContrato = id;
+                    var contrato = repositorioContrato.ObtenerPorId(id);
+                    repositorio.Alta(pago);
+                    var lista = repositorio.ObtenerTodos();
+                    return View("Index", lista);
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch (Exception ex)
             {
-                ViewBag.Contrato = repositorioContrato.ObtenerTodos();
                 ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
-                return View(pago);
+                return RedirectToAction(nameof(Index));
             }
         }
+
 
         // GET: PagoController/Edit/5
         public ActionResult Edit(int id)
         {
-            try
-            {
-                var e = repositorio.ObtenerPorId(id);
-                return View(e);
-            }
-            catch(Exception ex)
-            {
-                ViewBag.Error = ex.Message;
-                return View();
-            }
 
+            var entidad = repositorio.ObtenerPorId(id);
+            ViewBag.Inquilino = repositorioInquilino.ObtenerTodos();
+            ViewBag.Inmueble = repositorioInmueble.ObtenerTodos();
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(entidad);
         }
 
         // POST: PagoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Pago e)
+        public ActionResult Edit(int id, Pago entidad)
         {
             try
             {
-                int res = repositorio.Modificacion(e);
+                entidad.IdPago = id;
+                repositorio.Modificacion(entidad);
+                TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -102,24 +111,23 @@ namespace InmobiliariaAlvarezM.Controllers
                 ViewBag.StackTrate = ex.StackTrace;
                 return View();
             }
-
         }
 
         // GET: PagoController/Delete/5
         [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
-            try
-            {
-                var pago = repositorio.ObtenerPorId(id);
-                return View(pago);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = ex.Message;
-                return View();
-            }
+            var entidad = repositorio.ObtenerPorId(id);
+            ViewBag.Inquilino = repositorioInquilino.ObtenerTodos();
+            ViewBag.Inmueble = repositorioInmueble.ObtenerTodos();
+            TempData["IdContrato"] = entidad.IdContrato;
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(entidad);
         }
+
 
         // POST: PagoController/Delete/5
         [HttpPost]
@@ -129,24 +137,29 @@ namespace InmobiliariaAlvarezM.Controllers
         {
             try
             {
-                int res = repositorio.Baja(id);
-                TempData["Mensaje"] = "Eliminación realizada correctamente";
+                entidad.IdPago = id;
+                repositorio.Baja(id);
+                TempData["Mensaje"] = "Eliminacion realizada correctamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
-                return View(entidad);
+                return View();
             }
         }
-
         public ActionResult PorContrato(int id)
         {
             var lista = repositorio.BuscarPorContrato(id);
-            ViewBag.IdContrato = id;
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            ViewBag.Contrato = repositorioContrato.ObtenerPorId(id);
             return View(lista);
         }
+
     }
 
 }

@@ -36,15 +36,15 @@ namespace InmobiliariaAlvarezM.Models
         public Propietario Propietario { get; set; }
 
         [Display(Name = "Estado")]
-        public string EstadoNombre => Estado > 0 ? ((enEstado)Estado).ToString().Replace('_', ' ') : "";
+        public string EstadoNombre => Estado > 0 ? ((enEstado)Estado).ToString() : "";
 
-        public static IDictionary<int, string> ObtenerRoles()
+        public static IDictionary<int, string> ObtenerEstado()
         {
             SortedDictionary<int, string> estados = new SortedDictionary<int, string>();
             Type tipoEnumEstado = typeof(enEstado);
             foreach (var valor in Enum.GetValues(tipoEnumEstado))
             {
-                estados.Add((int)valor, Enum.GetName(tipoEnumEstado, valor).Replace('_', ' '));
+                estados.Add((int)valor, Enum.GetName(tipoEnumEstado, valor));
             }
             return estados;
         }
